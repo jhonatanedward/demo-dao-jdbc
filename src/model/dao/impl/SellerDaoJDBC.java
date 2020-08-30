@@ -59,7 +59,7 @@ public class SellerDaoJDBC implements SellerDao {
 
 	@Override
 	public void update(Seller obj) {
-PreparedStatement st = null;
+		PreparedStatement st = null;
 		
 		try {
 			st = conn.prepareStatement("UPDATE seller "
@@ -82,7 +82,16 @@ PreparedStatement st = null;
 	@Override
 	public void deleteById(Integer id) {
 		// TODO Auto-generated method stub
-
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("DELETE FROM seller where Id = ?");
+			st.setInt(1, id);
+			st.executeUpdate();
+		}catch(SQLException e) {
+			throw new DbException(e.getMessage());
+		}finally {
+			DB.CloseStatement(st);
+		}
 	}
 
 	@Override
